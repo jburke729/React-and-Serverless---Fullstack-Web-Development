@@ -22,13 +22,7 @@ export default function Navbar() {
           <StyledLink to="/">Home</StyledLink>
         </li>
         <li>
-          <StyledLink to="game">Game</StyledLink>
-        </li>
-        <li>
           <StyledLink to="highScores">High Scores</StyledLink>
-        </li>
-        <li>
-          <StyledLink to="gameOver">Game Over</StyledLink>
         </li>
       </StyledNavItems>
     </StyledNavbar>
