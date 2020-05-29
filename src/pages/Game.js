@@ -6,10 +6,11 @@ import {
   StyledCharacter,
 } from '../styled/Game';
 import { Strong } from '../styled/Random';
+import { useScore } from '../contexts/ScoreContext';
 
 export default function Game({ history }) {
-  const [score, setScore] = useState(0);
-  const MAX_SECONDS = 90;
+  const [score, setScore] = useScore();
+  const MAX_SECONDS = 5;
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   const [currentCharacter, setCurrentCharacter] = useState('');
   const [ms, setMs] = useState(0);
@@ -17,6 +18,7 @@ export default function Game({ history }) {
 
   useEffect(() => {
     setRandomCharacter();
+    setScore(0);
     const currentTime = new Date();
     const interval = setInterval(() => updateTime(currentTime), 1);
 
@@ -61,14 +63,16 @@ export default function Game({ history }) {
         }
       }
       setRandomCharacter();
-    },[currentCharacter]);
-  
-    useEffect(() => {
-      document.addEventListener('keyup', keyUpHandler);
-      return () => {
-        document.removeEventListener('keyup', keyUpHandler);
-      };
-    }, [keyUpHandler]);
+    },
+    [currentCharacter]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keyup', keyUpHandler);
+    return () => {
+      document.removeEventListener('keyup', keyUpHandler);
+    };
+  }, [keyUpHandler]);
 
   const setRandomCharacter = () => {
     const randomInt = Math.floor(Math.random() * 36);
