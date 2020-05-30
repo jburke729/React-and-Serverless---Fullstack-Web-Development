@@ -10,7 +10,7 @@ import { useScore } from '../contexts/ScoreContext';
 
 export default function Game({ history }) {
   const [score, setScore] = useScore();
-  const MAX_SECONDS = 50;
+  const MAX_SECONDS = 60;
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   const [currentCharacter, setCurrentCharacter] = useState('');
   const [ms, setMs] = useState(0);
