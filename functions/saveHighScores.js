@@ -1,4 +1,5 @@
 const { table, getHighScores } = require('./utils/airtable');
+
 exports.handler = async (event) => {
   console.log(event);
   if (event.httpMethod !== 'POST') {
