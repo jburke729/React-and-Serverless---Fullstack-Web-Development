@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const StyledNavbar = styled.nav`
   display: grid;
@@ -9,7 +9,7 @@ export const StyledNavbar = styled.nav`
 
 export const StyledNavBrand = styled.div`
   font-size: 1.4rem;
-
+  text-align: left;
   & > a {
     text-decoration: none;
   }
