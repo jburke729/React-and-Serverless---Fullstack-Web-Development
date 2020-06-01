@@ -9,7 +9,6 @@ import {
 } from '../styled/Navbar';
 import { Accent } from '../styled/Random';
 import { useAuth0 } from '../auth';
-import useTheme from '../hooks/UseTheme';
 import { StyledButton } from '../styled/Buttons';
 
 export default function Navbar({ toggleTheme }) {

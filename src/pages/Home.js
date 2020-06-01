@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import CTA from '../styled/CTA';
 import { Accent, StyledTitle } from '../styled/Random';
 
