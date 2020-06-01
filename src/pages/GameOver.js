@@ -8,8 +8,7 @@ import { useAuth0 } from '../auth';
 export default function GameOver({ history }) {
   const [score] = useScore();
   const [scoreMessage, setScoreMessage] = useState('');
-  const { getTokenSilently, isAuthenticated } = useAuth0();
-
+  const { isAuthenticated, getTokenSilently } = useAuth0();
   if (score === -1) {
     history.push('/');
   }
@@ -20,13 +19,15 @@ export default function GameOver({ history }) {
         const token = await getTokenSilently();
         const options = {
           method: 'POST',
-          body: JSON.stringify({ name: 'asdasfsd', score }),
+          body: JSON.stringify({
+            name: 'asdasfsd',
+            score,
+          }),
           headers: {
-            Authorization: `Bearer ${token}`,
+            authorization: `Bearer ${token}`,
           },
         };
         const res = await fetch('/.netlify/functions/saveHighScore', options);
-        console.log(res);
         const data = await res.json();
         if (data.id) {
           setScoreMessage('Congrats! You got a high score!!');
@@ -40,13 +41,13 @@ export default function GameOver({ history }) {
     if (isAuthenticated) {
       saveHighScore();
     }
-  }, [getTokenSilently, isAuthenticated, score]);
+  }, [score, isAuthenticated, getTokenSilently]);
   return (
     <div>
       <StyledTitle>Game Over</StyledTitle>
       <h2>{scoreMessage}</h2>
       {!isAuthenticated && (
-        <h2>You should log in or sign up to compete for high scores</h2>
+        <p>You should log in or sign up to compete for high scores.</p>
       )}
       <StyledCharacter>{score}</StyledCharacter>
       <div>

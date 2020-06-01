@@ -1,6 +1,14 @@
 const { table, getHighScores } = require('./utils/airtable');
+const { getAccessTokenFromHeaders } = require('./utils/auth');
 
 exports.handler = async (event) => {
+  const token = getAccessTokenFromHeaders(event.headers);
+  if (!token) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify({ err: 'User is not logged in' }),
+    };
+  }
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -18,6 +26,7 @@ exports.handler = async (event) => {
 
   try {
     const records = await getHighScores(false);
+
     const lowestRecord = records[9];
     if (
       typeof lowestRecord.fields.score === 'undefined' ||
@@ -28,10 +37,7 @@ exports.handler = async (event) => {
         id: lowestRecord.id,
         fields: { name, score },
       };
-      console.log([updatedRecord]);
-
       await table.update([updatedRecord]);
-
       return {
         statusCode: 200,
         body: JSON.stringify(updatedRecord),
