@@ -3,9 +3,12 @@ import { useScore } from '../contexts/ScoreContext';
 import { StyledLink } from '../styled/Navbar';
 import { StyledCharacter } from '../styled/Game';
 import { StyledTitle } from '../styled/Random';
+import { useAuth0 } from '../auth';
+
 export default function GameOver({ history }) {
   const [score] = useScore();
   const [scoreMessage, setScoreMessage] = useState('');
+  const { getTokenSilently, isAuthenticated } = useAuth0();
 
   if (score === -1) {
     history.push('/');
@@ -14,9 +17,13 @@ export default function GameOver({ history }) {
   useEffect(() => {
     const saveHighScore = async () => {
       try {
+        const token = await getTokenSilently();
         const options = {
           method: 'POST',
           body: JSON.stringify({ name: 'asdasfsd', score }),
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         };
         const res = await fetch('/.netlify/functions/saveHighScore', options);
         console.log(res);
@@ -30,13 +37,17 @@ export default function GameOver({ history }) {
         console.error(err);
       }
     };
-    saveHighScore();
-  }, [score]);
+    if (isAuthenticated) {
+      saveHighScore();
+    }
+  }, [getTokenSilently, isAuthenticated, score]);
   return (
     <div>
       <StyledTitle>Game Over</StyledTitle>
       <h2>{scoreMessage}</h2>
-
+      {!isAuthenticated && (
+        <h2>You should log in or sign up to compete for high scores</h2>
+      )}
       <StyledCharacter>{score}</StyledCharacter>
       <div>
         <StyledLink to="/">Go Home</StyledLink>
