@@ -8,27 +8,28 @@ import Home from './pages/Home';
 
 import { Container } from './styled/Container';
 import { Main } from './styled/Main';
-import Global from './styled/Global';
+import {GlobalStyle} from './styled/Global';
 import { useAuth0 } from './auth';
 function App() {
   const { loading } = useAuth0();
-  if (loading){
-    return <p>Loading...</p>
-  }
   return (
     <Router>
-      <Global />
+      <GlobalStyle />
       <Main>
-        <Container>
-          <Navbar />
-          <Switch>
-            <Route path="/game" component={Game} />
-            <Route path="/highScores" component={HighScores} />
-            <Route path="/gameOver" component={GameOver} />
-            <Route path="/" component={Home} />
-          </Switch>
-        </Container>
+        {loading && <p>Loading...</p>}
+        {!loading && (
+          <Container>
+            <Navbar />
+            <Switch>
+              <Route path="/game" component={Game} />
+              <Route path="/highScores" component={HighScores} />
+              <Route path="/gameOver" component={GameOver} />
+              <Route path="/" component={Home} />
+            </Switch>
+          </Container>
+        )}
       </Main>
+      <GlobalStyle/>
     </Router>
   );
 }

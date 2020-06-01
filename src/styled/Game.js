@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledGame = styled.div`
   height: 75vh;
@@ -21,5 +21,5 @@ export const StyledCharacter = styled.p`
   grid-row: 2;
   grid-column: 1/4;
   text-align: center;
-  color: #e16365;
+  color: var(--accent-color);
 `;
